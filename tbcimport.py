@@ -11,6 +11,7 @@ import StringIO
 _tbc_dir = '/a/doc/revit/tbc/git/a/'
 
 def get_text_from_html(html_input):
+  "Strip tags and non-ascii characters from HTML input."
   my_stringio = StringIO.StringIO() # make an instance of this file-like string thing
   p = HTMLParser(AbstractFormatter(DumbWriter(my_stringio)))
   try: p.feed(html_input); p.close() #calling close is not usually needed, but let's play it safe
@@ -20,6 +21,7 @@ def get_text_from_html(html_input):
 
 
 def parse_index_line(line):
+  "Parse a line of the tbc index.html to determine name, number, url and content of a blog post."
   nr = int(line[22:26])
   date = line[35:45]
   url = line[63:]
@@ -42,6 +44,7 @@ def parse_index_line(line):
   return nr, date, url, title, filename
   
 def load_from_index():
+  "Import all The Building Coder blog posts into Elasticsearch."
   es = elasticsearch.Elasticsearch()
 
   f = open(path.join(_tbc_dir, "index.html"))
