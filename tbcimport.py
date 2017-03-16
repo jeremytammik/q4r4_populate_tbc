@@ -17,7 +17,7 @@ def get_text_from_html(html_input):
   try: p.feed(html_input); p.close() #calling close is not usually needed, but let's play it safe
   except HTMLParseError: print ':(' #the html is badly malformed (or you found a bug)
   #return my_stringio.getvalue().replace('\xa0','')
-  return re.sub( r'[^\x00-\x7f]', r'', my_stringio.getvalue() )  
+  return re.sub( r'[^\x00-\x7f]', r'', my_stringio.getvalue() ).replace('\r\n',' ').replace('\n',' ')
 
 
 def parse_index_line(line):
