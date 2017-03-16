@@ -5,8 +5,8 @@ Q4R4 is QARA, a Question Answering system for Revit API.
 The first module here is [tbcimport.py](tbcimport.py).
 It imports all blog posts
 from [The Building Coder](http://thebuildingcoder.typepad.com)
-into [Elastisearch](https://www.elastic.co) in
-order to start implementing and testing intelligent search algorithms to answer Revit API related questions.
+into [Elastisearch](https://www.elastic.co) to
+start implementing and testing intelligent search algorithms to answer Revit API related questions.
 
 
 ## Author
