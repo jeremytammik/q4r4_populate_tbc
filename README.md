@@ -1,4 +1,4 @@
-# q4r4 &ndash; a Question Answering system for Revit API
+# q4r4 &ndash; Question Answering for Revit API
 
 Q4R4 is QARA, a Question Answering system for Revit API.
 
