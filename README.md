@@ -23,5 +23,3 @@ Jeremy Tammik,
 
 This sample is licensed under the terms of the [MIT License](http://opensource.org/licenses/MIT).
 Please see the [LICENSE](LICENSE) file for full details.
-
-Credit to [icons8.com](https://icons8.com) for the RevitLookup icons.
