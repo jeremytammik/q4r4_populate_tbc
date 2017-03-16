@@ -1,9 +1,132 @@
+# search for 'model line'
+
 curl -XGET 'localhost:9200/tbc/_search?pretty' -H 'Content-Type: application/json' -d'
 {
     "query": {
         "match": {
-            "text": "model line"
+            "text": "model line" 
         }
     }
 }
 '
+
+# check what mapping was applied to blog post text
+
+curl -XGET 'localhost:9200/blogpost/_mapping/text?pretty'
+
+# delete tbc index
+
+curl -XDELETE 'localhost:9200/tbc?pretty'
+
+# read all tbc documents
+
+curl -XGET 'localhost:9200/tbc/_search?pretty'
+
+# define tbc mapping
+
+curl -XPUT 'localhost:9200/gb?pretty' -H 'Content-Type: application/json' -d'
+{
+  "mappings": {
+    "tweet" : {
+      "properties" : {
+        "tweet" : {
+          "type" :    "string",
+          "analyzer": "english"
+        },
+        "date" : {
+          "type" :   "date"
+        },
+        "name" : {
+          "type" :   "string"
+        },
+        "user_id" : {
+          "type" :   "long"
+        }
+      }
+    }
+  }
+}
+'
+
+# read tbc mapping
+
+$ curl -XGET 'localhost:9200/tbc/_mapping?pretty'
+{
+  "tbc" : {
+    "mappings" : {
+      "blogpost" : {
+        "properties" : {
+          "date" : {
+            "type" : "date"
+          },
+          "nr" : {
+            "type" : "long"
+          },
+          "text" : {
+            "type" : "text",
+            "fields" : {
+              "keyword" : {
+                "type" : "keyword",
+                "ignore_above" : 256
+              }
+            }
+          },
+          "title" : {
+            "type" : "text",
+            "fields" : {
+              "keyword" : {
+                "type" : "keyword",
+                "ignore_above" : 256
+              }
+            }
+          },
+          "url" : {
+            "type" : "text",
+            "fields" : {
+              "keyword" : {
+                "type" : "keyword",
+                "ignore_above" : 256
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+# analyse mapping of tbc text
+
+curl -XGET 'localhost:9200/tbc/_analyze?pretty' -H 'Content-Type: application/json' -d'
+{
+  "field": "text",
+  "text": "Black-cats" 
+}
+'
+
+curl -XGET 'localhost:9200/tbc/_analyze?pretty' -H 'Content-Type: application/json' -d'
+{
+  "field": "url",
+  "text": "Black-cats" 
+}
+'
+
+# define tbc text to be full text
+
+curl -XDELETE 'localhost:9200/tbc?pretty'
+
+curl -XPUT 'localhost:9200/tbc?pretty' -H 'Content-Type: application/json' -d'
+{
+  "mappings": {
+    "blogpost": {
+      "properties": {
+        "text": {
+          "type":  "text"
+        }
+      }
+    }
+  }
+}
+'
+
+python tbcimport.py

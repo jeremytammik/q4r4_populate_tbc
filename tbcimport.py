@@ -19,7 +19,6 @@ def get_text_from_html(html_input):
   #return my_stringio.getvalue().replace('\xa0','')
   return re.sub( r'[^\x00-\x7f]', r'', my_stringio.getvalue() ).replace('\r\n',' ').replace('\n',' ')
 
-
 def parse_index_line(line):
   "Parse a line of the tbc index.html to determine name, number, url and content of a blog post."
   nr = int(line[22:26])
