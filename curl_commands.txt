@@ -10,6 +10,19 @@ curl -XGET 'localhost:9200/tbc/_search?pretty' -H 'Content-Type: application/jso
 }
 '
 
+curl -XGET 'localhost:9200/tbc/_search?pretty' -H 'Content-Type: application/json' -d'
+{
+    "_source": {
+        "includes": [ "title", "url" ]
+    },
+    "query": {
+        "match": {
+            "text": "change colour" 
+        }
+    }
+}
+' | grep url
+
 # check what mapping was applied to blog post text
 
 curl -XGET 'localhost:9200/blogpost/_mapping/text?pretty'
@@ -50,7 +63,7 @@ curl -XPUT 'localhost:9200/gb?pretty' -H 'Content-Type: application/json' -d'
 
 # read tbc mapping
 
-$ curl -XGET 'localhost:9200/tbc/_mapping?pretty'
+curl -XGET 'localhost:9200/tbc/_mapping?pretty'
 {
   "tbc" : {
     "mappings" : {
@@ -111,7 +124,7 @@ curl -XGET 'localhost:9200/tbc/_analyze?pretty' -H 'Content-Type: application/js
 }
 '
 
-# define tbc text to be full text
+# define tbc text and title to be full text
 
 curl -XDELETE 'localhost:9200/tbc?pretty'
 
@@ -120,9 +133,8 @@ curl -XPUT 'localhost:9200/tbc?pretty' -H 'Content-Type: application/json' -d'
   "mappings": {
     "blogpost": {
       "properties": {
-        "text": {
-          "type":  "text"
-        }
+        "text": { "type":  "text" },
+        "title": { "type":  "text" }
       }
     }
   }
