@@ -4,7 +4,7 @@ curl -XGET 'localhost:9200/tbc/_search?pretty' -H 'Content-Type: application/jso
 {
     "query": {
         "match": {
-            "text": "model line" 
+            "text": "model line"
         }
     }
 }
@@ -17,7 +17,7 @@ curl -XGET 'localhost:9200/tbc/_search?pretty' -H 'Content-Type: application/jso
     },
     "query": {
         "match": {
-            "text": "change colour" 
+            "text": "change colour"
         }
     }
 }
@@ -113,20 +113,20 @@ curl -XGET 'localhost:9200/tbc/_mapping?pretty'
 curl -XGET 'localhost:9200/tbc/_analyze?pretty' -H 'Content-Type: application/json' -d'
 {
   "field": "text",
-  "text": "Black-cats" 
+  "text": "Black-cats"
 }
 '
 
 curl -XGET 'localhost:9200/tbc/_analyze?pretty' -H 'Content-Type: application/json' -d'
 {
   "field": "url",
-  "text": "Black-cats" 
+  "text": "Black-cats"
 }
 '
 
 # define tbc text and title to be full text
 
-curl -XDELETE 'localhost:9200/tbc?pretty'
+curl -XDELETE 'localhost:9200/tbc'
 
 curl -XPUT 'localhost:9200/tbc?pretty' -H 'Content-Type: application/json' -d'
 {
@@ -135,6 +135,30 @@ curl -XPUT 'localhost:9200/tbc?pretty' -H 'Content-Type: application/json' -d'
       "properties": {
         "text": { "type":  "text" },
         "title": { "type":  "text" }
+      }
+    }
+  }
+}
+'
+
+python tbcimport.py
+
+# define tbc text and title to be full text, date a date, and url ignored
+
+curl -XDELETE 'localhost:9200/tbc'
+
+curl -XPUT 'localhost:9200/tbc?pretty' -H 'Content-Type: application/json' -d'
+{
+  "mappings": {
+    "blogpost": {
+      "properties": {
+        "date":  {
+          "type":   "date",
+          "format": "strict_date_optional_time||epoch_millis"
+        },
+        "text": { "type":  "text" },
+        "title": { "type":  "text" },
+        "url": { "type": "keyword" }
       }
     }
   }
