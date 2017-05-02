@@ -1,6 +1,8 @@
-# q4r4 &ndash; Question Answering for Revit API
+# q4r4_populate_tbc &ndash; Populate Q4R4 from TBC
 
-Q4R4 is QARA, a Question Answering system for Revit API.
+Q4R4 is QARA, Question Answering for Revit API, a question answering system for Revit add-in programming.
+
+This module populates the Q4R4 knowledge base with blog post content from The Building Coder.
 
 The first module here is [tbcimport.py](tbcimport.py).
 It imports all blog posts
