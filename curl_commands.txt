@@ -166,3 +166,27 @@ curl -XPUT 'localhost:9200/tbc?pretty' -H 'Content-Type: application/json' -d'
 '
 
 python tbcimport.py
+
+# define tbc text and title to be full text, date a date, and url not analysed
+
+curl -XDELETE 'localhost:9200/tbc'
+
+curl -XPUT 'localhost:9200/tbc?pretty' -H 'Content-Type: application/json' -d'
+{
+  "mappings": {
+    "blogpost": {
+      "properties": {
+        "date":  {
+          "type":   "date",
+          "format": "strict_date_optional_time||epoch_millis"
+        },
+        "text": { "type":  "text" },
+        "title": { "type":  "text" },
+        "url": { "type": "string", 'index': 'not_analyzed' }
+      }
+    }
+  }
+}
+'
+
+python tbcimport.py
