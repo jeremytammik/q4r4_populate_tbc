@@ -55,11 +55,13 @@ def load_from_index():
   "Import all The Building Coder blog posts into Elasticsearch."
   es = elasticsearch.Elasticsearch()
   
-  count = es.count(_tbc_index, _tbc_doc_type)['count']
-  
-  print count, 'tbc blog post documents'
+  try:
+    count = es.count(_tbc_index, _tbc_doc_type)['count']
+    print count, 'tbc blog post documents'
+  except:
+    print 'Not an index:', _tbc_index
 
-  return
+  es.indices.delete( index=_tbc_index, ignore=[400, 404] )
 
   f = open(path.join(_tbc_dir, "index.html"))
   lines = f.readlines()
