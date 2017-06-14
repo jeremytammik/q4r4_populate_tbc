@@ -9,6 +9,8 @@ import re
 import StringIO
 
 _tbc_dir = '/a/doc/revit/tbc/git/a/'
+_tbc_index = 'tbc'
+_tbc_doc_type = 'blogpost'
 
 def get_text_from_html( html_input ):
   "Strip tags and non-ascii characters from HTML input."
@@ -45,9 +47,19 @@ def parse_index_line(line):
   print nr, date, url, "'"+title+"'", filename
   return nr, date, url, title, filename
   
+def extract_questions( s ):
+  'Extract individual questions and urls from blog post text.'
+  return []
+
 def load_from_index():
   "Import all The Building Coder blog posts into Elasticsearch."
   es = elasticsearch.Elasticsearch()
+  
+  count = es.count(_tbc_index, _tbc_doc_type)['count']
+  
+  print count, 'tbc blog post documents'
+
+  return
 
   f = open(path.join(_tbc_dir, "index.html"))
   lines = f.readlines()
@@ -78,9 +90,12 @@ def load_from_index():
         
         es.index(index='tbc', doc_type='blogpost', body=json_body)
         
+        # search for embedded questions and answers
+        
+        questions = extract_questions(s)
+
 def main():
   load_from_index()
 
 if __name__ == '__main__':
   main()
-  
