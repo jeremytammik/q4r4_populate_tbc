@@ -1,6 +1,6 @@
 {
   "name": "q4r4_populate_tbc",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "description": "populate q4r4 with The Building Coder blog posts",
   "main": "putmappings.js",
   "scripts": {

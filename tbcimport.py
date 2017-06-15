@@ -51,7 +51,7 @@ def extract_questions( s ):
   'Extract individual questions and urls from blog post text.'
   return []
 
-def load_from_index():
+def load_blogposts_from_index():
   "Import all The Building Coder blog posts into Elasticsearch."
   es = elasticsearch.Elasticsearch()
   
@@ -104,8 +104,20 @@ def load_from_index():
   
   print nPosts, 'posts imported, total text length', nTextLength, 'bytes.'
 
+def load_qa():
+  "Import stand-alone questions and answers into Elasticsearch."
+  es = elasticsearch.Elasticsearch()
+  
+  f = open(path.join(_tbc_dir, "index.html"))
+  j = json.loads(f.read())
+  f.close()
+          
+  es.index(index='tbc', doc_type='qa', body=json_body)
+        
+  print nPosts, 'posts imported, total text length', nTextLength, 'bytes.'
+  
 def main():
-  load_from_index()
+  load_blogposts_from_index()
 
 if __name__ == '__main__':
   main()
