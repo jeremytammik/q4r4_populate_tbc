@@ -1,0 +1,22 @@
+{
+  "name": "q4r4_populate_tbc",
+  "version": "1.0.0",
+  "description": "populate q4r4 with The Building Coder blog posts",
+  "main": "putmappings.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeremytammik/q4r4_populate_tbc.git"
+  },
+  "author": "jeremytammik",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jeremytammik/q4r4_populate_tbc/issues"
+  },
+  "homepage": "https://github.com/jeremytammik/q4r4_populate_tbc#readme",
+  "dependencies": {
+    "elasticsearch": "^13.1.1"
+  }
+}
