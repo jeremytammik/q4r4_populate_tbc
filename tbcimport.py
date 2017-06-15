@@ -108,16 +108,27 @@ def load_qa():
   "Import stand-alone questions and answers into Elasticsearch."
   es = elasticsearch.Elasticsearch()
   
-  f = open(path.join(_tbc_dir, "index.html"))
-  j = json.loads(f.read())
+  f = open(path.join(_tbc_dir, "qa.json"))
+  j = f.read()
   f.close()
-          
-  es.index(index='tbc', doc_type='qa', body=json_body)
-        
-  print nPosts, 'posts imported, total text length', nTextLength, 'bytes.'
+  
+  print j
+  
+  j = json.loads(j)
+  
+  nQas = 0
+  nTextLength = 0
+  
+  for qa in j:
+    es.index(index='tbc', doc_type='qa', body=qa)
+    nQas += 1
+    nTextLength += len(qa['q']) + len(qa['a'])
+
+  print len(j), 'questions and answers imported, total text length', nTextLength, 'bytes.'
   
 def main():
-  load_blogposts_from_index()
+  #load_blogposts_from_index()
+  load_qa()
 
 if __name__ == '__main__':
   main()
