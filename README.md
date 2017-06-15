@@ -11,6 +11,21 @@ into [Elasticsearch](https://www.elastic.co) to
 start implementing and testing intelligent search algorithms to answer Revit API related questions.
 
 
+## Usage
+
+Currently the following manual sequence of commands:
+
+```
+/a/src/q4r4/q4r4_populate_tbc $ node delete.js
+delete { acknowledged: true }
+/a/src/q4r4/q4r4_populate_tbc $ node create.js
+create { acknowledged: true, shards_acknowledged: true }
+/a/src/q4r4/q4r4_populate_tbc $ node putmappings.js
+{ acknowledged: true }
+/a/src/q4r4/q4r4_populate_tbc $ python tbcimport.py
+1566 posts imported, total text length 9298881 bytes.
+```
+
 ## Author
 
 Jeremy Tammik,

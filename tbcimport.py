@@ -44,7 +44,7 @@ def parse_index_line(line):
   i = filename.index('"')
   assert( 0 < i )
   filename = filename[:i]
-  print nr, date, url, "'"+title+"'", filename
+  #print nr, date, url, "'"+title+"'", filename
   return nr, date, url, title, filename
   
 def extract_questions( s ):
@@ -55,17 +55,20 @@ def load_from_index():
   "Import all The Building Coder blog posts into Elasticsearch."
   es = elasticsearch.Elasticsearch()
   
-  try:
-    count = es.count(_tbc_index, _tbc_doc_type)['count']
-    print count, 'tbc blog post documents'
-  except:
-    print 'Not an index:', _tbc_index
+  #try:
+  #  count = es.count(_tbc_index, _tbc_doc_type)['count']
+  #  print count, 'tbc blog post documents'
+  #except:
+  #  print 'Not an index:', _tbc_index
 
-  es.indices.delete( index=_tbc_index, ignore=[400, 404] )
+  #es.indices.delete( index=_tbc_index, ignore=[400, 404] )
 
   f = open(path.join(_tbc_dir, "index.html"))
   lines = f.readlines()
   f.close()
+  
+  nPosts = 0
+  nTextLength = 0
   
   for line in lines:
     if line.startswith('<tr><td align="right">'):
@@ -80,21 +83,26 @@ def load_from_index():
         
         s = get_text_from_html(html)
 
-        print 's=', s
+        #print 's=', s
         
         #json_body = '{"nr" : "%d", "date" : "%s", "url" : "%s", "title" : "%s", "text" : "%s"}' % (nr, date, url, title, s)
         
         json_body = {"nr" : nr, "date" : date, "url" : url, "title" : title, "text" : s}
 
-        print 'json_body=', json_body
+        #print 'json_body=', json_body
         
-        json.dumps(json_body)
+        #json.dumps(json_body)
         
         es.index(index='tbc', doc_type='blogpost', body=json_body)
         
         # search for embedded questions and answers
         
         questions = extract_questions(s)
+        
+        nPosts += 1
+        nTextLength += len(s)
+  
+  print nPosts, 'posts imported, total text length', nTextLength, 'bytes.'
 
 def main():
   load_from_index()
