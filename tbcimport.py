@@ -127,7 +127,7 @@ def load_qa():
   print len(j), 'questions and answers imported, total text length', nTextLength, 'bytes.'
   
 def main():
-  #load_blogposts_from_index()
+  load_blogposts_from_index()
   load_qa()
 
 if __name__ == '__main__':

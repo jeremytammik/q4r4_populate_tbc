@@ -1,3 +1,5 @@
+***this currently does not work***
+
 var client = require('./connection.js');
 var inputfile = require('./qa.json');
 var bulk = [];
