@@ -11,6 +11,8 @@ import StringIO
 _tbc_dir = '/a/doc/revit/tbc/git/a/'
 _tbc_index = 'tbc'
 _tbc_doc_type = 'blogpost'
+_tbc_save_to_json_file = True # if False, populate es directly
+_tbc_outdir = './output'
 
 def get_text_from_html( html_input ):
   "Strip tags and non-ascii characters from HTML input."
@@ -53,7 +55,11 @@ def extract_questions( s ):
 
 def load_blogposts_from_index():
   "Import all The Building Coder blog posts into Elasticsearch."
-  es = elasticsearch.Elasticsearch()
+
+  if _tbc_save_to_json_file:
+    json_data = []
+  else:
+    es = elasticsearch.Elasticsearch()
   
   #try:
   #  count = es.count(_tbc_index, _tbc_doc_type)['count']
@@ -63,7 +69,7 @@ def load_blogposts_from_index():
 
   #es.indices.delete( index=_tbc_index, ignore=[400, 404] )
 
-  f = open(path.join(_tbc_dir, "index.html"))
+  f = open(path.join(_tbc_dir, 'index.html'))
   lines = f.readlines()
   f.close()
   
@@ -87,13 +93,21 @@ def load_blogposts_from_index():
         
         #json_body = '{"nr" : "%d", "date" : "%s", "url" : "%s", "title" : "%s", "text" : "%s"}' % (nr, date, url, title, s)
         
-        json_body = {"nr" : nr, "date" : date, "url" : url, "title" : title, "text" : s}
+        json_body = {'nr' : nr, 'date' : date, 'url' : url, 'title' : title, 'text' : s}
 
         #print 'json_body=', json_body
         
         #json.dumps(json_body)
         
-        es.index(index='tbc', doc_type='blogpost', body=json_body)
+        if _tbc_save_to_json_file:
+          # JSON data
+          #json_data.append({'index':{'_index':'tbc','_type':'blogpost'}})
+          #json_data.append(json_body)
+          # JSON string
+          json_data.append('{"index":{"_index":"tbc","_type":"blogpost"}}')
+          json_data.append(json.dumps(json_body))
+        else:
+          es.index(index='tbc', doc_type='blogpost', body=json_body)
         
         # search for embedded questions and answers
         
@@ -101,18 +115,28 @@ def load_blogposts_from_index():
         
         nPosts += 1
         nTextLength += len(s)
+
+  if _tbc_save_to_json_file:
+    with open(path.join(_tbc_outdir, 'es_bulk_tbc_blogpost.json'), 'w+') as f:
+      f.write('\n'.join(json_data))
+      f.close()
   
-  print nPosts, 'posts imported, total text length', nTextLength, 'bytes.'
+  s = 'process' if _tbc_save_to_json_file else 'import'
+  print '%d blog posts %sed, total text length %d bytes.' % (nPosts, s, nTextLength)
 
 def load_qa():
-  "Import stand-alone questions and answers into Elasticsearch."
-  es = elasticsearch.Elasticsearch()
+  'Import stand-alone questions and answers into Elasticsearch.'
+
+  if _tbc_save_to_json_file:
+    json_data = []
+  else:
+    es = elasticsearch.Elasticsearch()
   
-  f = open(path.join(_tbc_dir, "qa.json"))
+  f = open(path.join(_tbc_dir, 'qa.json'))
   j = f.read()
   f.close()
   
-  print j
+  #print j
   
   j = json.loads(j)
   
@@ -120,11 +144,23 @@ def load_qa():
   nTextLength = 0
   
   for qa in j:
-    es.index(index='tbc', doc_type='qa', body=qa)
+
+    if _tbc_save_to_json_file:
+      json_data.append('{"index":{"_index":"tbc","_type":"qa"}}')
+      json_data.append(json.dumps(j))
+    else:
+      es.index(index='tbc', doc_type='qa', body=qa)
+
     nQas += 1
     nTextLength += len(qa['q']) + len(qa['a'])
 
-  print len(j), 'questions and answers imported, total text length', nTextLength, 'bytes.'
+  if _tbc_save_to_json_file:
+    with open(path.join(_tbc_outdir, 'es_bulk_qa.json'), 'w+') as f:
+      f.write('\n'.join(json_data))
+      f.close()
+
+  s = 'process' if _tbc_save_to_json_file else 'import'
+  print '%d questions and answers %sed, total text length %d bytes.' % (nQas, s, nTextLength)
   
 def main():
   load_blogposts_from_index()
