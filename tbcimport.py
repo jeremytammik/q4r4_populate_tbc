@@ -147,7 +147,7 @@ def load_qa():
 
     if _tbc_save_to_json_file:
       json_data.append('{"index":{"_index":"tbc","_type":"qa"}}')
-      json_data.append(json.dumps(j))
+      json_data.append(json.dumps(qa))
     else:
       es.index(index='tbc', doc_type='qa', body=qa)
 
