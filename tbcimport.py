@@ -11,7 +11,7 @@ import StringIO
 _tbc_dir = '/a/doc/revit/tbc/git/a/'
 _tbc_index = 'tbc'
 _tbc_doc_type = 'blogpost'
-_tbc_save_to_json_file = True # if False, populate es directly
+_tbc_save_to_json_file = True # False # if False, populate es directly
 _tbc_outdir = './output'
 
 def get_text_from_html( html_input ):

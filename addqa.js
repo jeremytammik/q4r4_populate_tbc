@@ -1,21 +1,21 @@
-***this currently does not work***
-
 var client = require('./connection.js');
-var inputfile = require('./qa.json');
+var inputfile = require('./input/qa.json');
 var bulk = [];
 
 var makebulk = function(qalist,callback){
-  for (var current in qalist){
-    bulk.push(
-      { index: {_index: 'tbc', _type: 'qa' } },
-      current );
+  var action = { index: {
+    _index: 'tbc',
+    _type: 'qa' }
+  };
+  for (var i in qalist){
+    var a = qalist[i];
+    bulk.push( action, a );
   }
   callback(bulk);
 }
 
 var indexall = function(madebulk,callback) {
   client.bulk({
-    maxRetries: 5,
     index: 'tbc',
     type: 'qa',
     body: madebulk
