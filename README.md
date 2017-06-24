@@ -27,12 +27,16 @@ start implementing and testing intelligent search algorithms to answer Revit API
 ```
 /a/src/q4r4/q4r4_populate_tbc $ node delete.js
 delete { acknowledged: true }
+
 /a/src/q4r4/q4r4_populate_tbc $ node create.js
 create { acknowledged: true, shards_acknowledged: true }
+
 /a/src/q4r4/q4r4_populate_tbc $ node putmappings.js
 { acknowledged: true }
+
 /a/src/q4r4/q4r4_populate_tbc $ python tbcimport.py
 1571 blog posts processed, total text length 9319907 bytes.
+
 /a/src/q4r4/q4r4_populate_tbc $ node addqa.js
 Bulk content prepared
 [ { index:
@@ -56,6 +60,7 @@ Bulk content prepared
        _shards: [Object],
        created: true,
        status: 201 } } ]
+
 /a/src/q4r4/q4r4_populate_tbc $ node addblogpost.js
 Items left to index: 1571
 Items 250
@@ -69,6 +74,7 @@ Items 71
 Items left to index: 0
 No more blog posts to index
 Indexed 71 items
+
 /a/src/q4r4/q4r4_populate_tbc $ node ../q4r4_report/info.js
 -- Client Health -- { cluster_name: 'elasticsearch',
   status: 'yellow',
