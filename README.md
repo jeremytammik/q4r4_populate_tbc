@@ -76,7 +76,6 @@ Indexed 71 items
   active_shards_percent_as_number: 50 }
 qa { count: 7, _shards: { total: 5, successful: 5, failed: 0 } }
 blogpost { count: 1571, _shards: { total: 5, successful: 5, failed: 0 } }
-/a/src/q4r4/q4r4_populate_tbc $
 ```
 
 ## Author
