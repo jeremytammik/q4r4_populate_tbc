@@ -8,7 +8,7 @@ var handleError = function(err) {
 };
 
 var indexall = function(blogpostlist,callback){
-  console.log('items left to index: '+(blogpostlist.length/2));
+  console.log('Items left to index: '+(blogpostlist.length/2));
   segment = blogpostlist.splice(0,500);
   if (segment.length){
     bulkindex(segment,function(response){
@@ -32,7 +32,7 @@ var bulkindex = function(segment,callback){
       callback(err);
     }
     else {
-      console.log('items',resp.items.length);
+      console.log('Items',resp.items.length);
       setTimeout(function() { callback('Indexed '+resp.items.length+' items'); }, 2000);
     }
   })
