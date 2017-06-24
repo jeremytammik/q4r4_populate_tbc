@@ -1,6 +1,6 @@
 {
   "name": "q4r4_populate_tbc",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "populate q4r4 with The Building Coder blog posts plus Questions and Answers",
   "keywords": ["Revit API", "The Building Coder", ".NET", "C#"],
   "homepage": "https://github.com/jeremytammik/q4r4_populate_tbc#readme",
@@ -12,6 +12,7 @@
     "delete": "node delete.js",
     "create": "node create.js",
     "putmappings": "node putmappings.js",
+    "addblogpost": "node addblogpost.js",
     "addqa": "node addqa.js"
   },
   "repository": {
