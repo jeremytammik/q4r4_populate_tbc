@@ -1,5 +1,5 @@
 var client = require('./connection.js');
-var inputfile = require('./input/blogpost.json');
+var inputfile = require('./bulk/blogpost.json');
 
 var handleError = function(err) {  
   if(!err) return false;

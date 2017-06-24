@@ -1,5 +1,5 @@
 var client = require('./connection.js');
-var inputfile = require('./input/qa.json');
+var inputfile = require('./bulk/qa.json');
 var bulk = [];
 
 var makebulk = function(qalist,callback){
