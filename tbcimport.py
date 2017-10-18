@@ -81,6 +81,7 @@ def load_blogposts_from_index():
     if line.startswith('<tr><td align="right">'):
       nr, date, url, title, filename = parse_index_line(line)
       if 0 < nr:
+        if not filename.endswith('.htm') and not filename.endswith('.html'): print filename
         assert(filename.endswith('.htm') or filename.endswith('.html'))
         filename = path.join(_tbc_dir, filename)
         assert(path.isfile(filename) )
